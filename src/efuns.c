@@ -9096,29 +9096,53 @@ f_rusage (svalue_t *sp)
     return sp;
 } /* f_rusage() */
 
-/*-------------------------------------------------------------------------*/
-svalue_t *
-f_random (svalue_t *sp)
+    CASE(F_RANDOM);                 /* --- random              --- */
+        /* EFUN random()
+         *
+         *   int random(int n)
+         *   int random(int n, int seed) DARTMUD
+         *
+         * Returns a number in the random range [0 .. n-1].
+         *
+         * The random number generator is proven to deliver an equal
+         * distribution of numbers over a big range, with no repetition of
+         * number sequences for a long time.
+         */
+#ifdef DARTMUD
+        GET_NUM_ARG
+        if(num_arg==2) // Dartmud allows a seedable random for languages mainly
+        {   long int i;
+	   
+            TYPE_TEST1(sp, T_NUMBER)
+	    TYPE_TEST2(sp, T_NUMBER)
+//            fprintf(stderr, "RANDTEST seed %ld\n", sp->u.number);
+	   
+	    srandom(sp->u.number);
+	    pop_stack();
+//            fprintf(stderr, "RANDTEST limit %ld\n", sp->u.number);
+            if (sp->u.number <= 0)
+            {
+               sp->u.number = 0;
+               break;
+            }
+	    // cheesy, but it works.
+            i = (long int)(random() % (uint32)sp->u.number);
+//            fprintf(stderr, "RANDTEST result %ld\n", i);
+	    pop_stack();
+            push_number(i);
+            break;
+	}
+#endif
+        /* Normal 1 arg random handled here */
+        TYPE_TEST1(sp, T_NUMBER)
+        if (sp->u.number <= 0)
+        {
+            sp->u.number = 0;
+            break;
+        }
+        sp->u.number = (p_int)random_number((uint32)sp->u.number);
+        break;
 
-/* EFUN random()
- *
- *   int random(int n)
- *
- * Returns a number in the random range [0 .. n-1].
- *
- * The random number generator is proven to deliver an equal
- * distribution of numbers over a big range, with no repetition of
- * number sequences for a long time.
- */
-
-{
-    if (sp->u.number <= 0)
-        sp->u.number = 0;
-    else
-        sp->u.number = (p_int)random_number(sp->u.number);
-
-    return sp;
-} /* f_random() */
 
 /*-------------------------------------------------------------------------*/
 svalue_t *
