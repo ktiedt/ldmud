@@ -100,7 +100,7 @@ The compilation is done using make. Following targets are implemented:
 
 Target | Description
 ------ | -----------
-<none> | compile the driver, named 'ldmud'.
+\<none\> | compile the driver, named 'ldmud'.
 install | compile the driver and install it in ${bindir}
 utils | compile the utilities, especially the ERQ demon
 install-utils | compile and install the utilities in ${bindir}
