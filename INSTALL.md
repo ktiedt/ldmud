@@ -1,12 +1,13 @@
 ## Topics covered:
-- Prerequisites: what do you need to compile and run LDMud-3.5.x
-- Unix or Unix-like systems (like Linux, FreeBSD, MacOS X, ...).
-- 64 bit systems (LP64 model)
-- Compiling for 32-bit environments on 64-bit systems
-- Compiling sources directly from our git repository
-- IPv6
-- mySQL
-- Windows 95/98/NT/XP
+- [Prerequisites](#prerequisites): what do you need to compile and run LDMud-3.5.x
+- [Optional dependencies](#optional-dependencies)
+- [Unix or Unix-like systems](#unix-or-unix-like-system) (like Linux, FreeBSD, MacOS X, ...)
+- [64 bit systems](#64-bit-systems-using-the-lp64-model) (LP64 model)
+- [Compiling for 32-bit environments on 64-bit systems](#compiling-for-32-bit-environments-on-64-bit-systems)
+- [Compiling sources directly from our git repository](#compiling-sources-directly-from-our-git-repository)
+- [IPv6](#ipv6)
+- [mySQL](#mysql)
+- [Windows 95/98/NT/XP](#windows-9598ntxp7)
 
 
 ### Prerequisites
@@ -21,7 +22,7 @@
 - autoconf and automake for compiling sources directly from our git
     repository.
 
-###  Optional libraries:
+###  Optional dependencies:
 - libpcre for the support of PCRE compatible regular expressions
 - mysql for the mysql package
 - postgresql for the postgresql package
