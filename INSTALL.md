@@ -55,7 +55,7 @@ config.h below.
 configure takes a lot of arguments (--help will tell you everything),
 but the most important are these:
 
-     Option      | Description | Default
+Option           | Description | Default
 ---------------- | ----------- | -------
 --prefix=PREFIX  | the base directory for the mud installation | /usr/local/mud
 --bindir=DIR     | the directory to install the executables in | ${PREFIX}/bin
