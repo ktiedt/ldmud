@@ -13,7 +13,7 @@ The latest stable version is available on our [homepage](http://www.ldmud.eu/)
 
 
 The files in this directory are:
-
+```
   README      : this file.
   COPYRIGHT   : the copyright of the driver.
   CREDITS     : the list of contributors.
@@ -37,3 +37,4 @@ The files in this directory are:
   etc/    : misc. scripts, images and syntax files for editors.
   gdb/    : pretty printers for GDB7 for the main data structures.
   test/   : the driver test suite, run with ./run.sh after compilation.
+```
