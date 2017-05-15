@@ -9,20 +9,19 @@ fixes and improvements found their way into the driver - much more than
 originally expected, and definitely enough to make LDMud a driver in its own
 right.
 
-The latest stable version is available on our [homepage](http://www.ldmud.eu/)
+The latest stable version is available on our [homepage](http://www.ldmud.eu/).
 
 
 The files in this directory are:
 
 Name | Description
 ---- | -------------
-README | this file.
+README.md | this file.
 COPYRIGHT | the copyright of the driver.
 CREDITS | the list of contributors.
 HISTORY | a user-oriented history of the last changes.
 CHANGELOG | the last changes in minute detail.
-INSTALL | installation hints and notes.
-
+INSTALL.md | installation hints and notes.
 autoconf/ | pre-made autoconf files for legacy systems.
 doc/ | the collected documentation
 src/ | the driver source
