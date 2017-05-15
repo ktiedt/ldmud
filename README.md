@@ -13,8 +13,8 @@ The latest stable version is available on our [homepage](http://www.ldmud.eu/)
 
 
 The files in this directory are:
-Name | Description
------------- | -------------
+ Name | Description
+ ------------ | -------------
 README | this file.
 COPYRIGHT | the copyright of the driver.
 CREDITS | the list of contributors.
