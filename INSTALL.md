@@ -55,17 +55,13 @@ config.h below.
 configure takes a lot of arguments (--help will tell you everything),
 but the most important are these:
 
-  --prefix=PREFIX:  the base directory for the mud installation,
-                      defaults to /usr/local/mud .
-  --bindir=DIR:     the directory to install the executables in,
-                      defaults to ${PREFIX}/bin .
-  --libdir=DIR:     the directory where the mudlib is found,
-                      defaults to ${PREFIX}/lib .
-  --includedir=DIR: the directory where driver's LPC include files
-                      are supposed to live.
-                      defaults to ${PREFIX}/include (which is usually wrong).
-  --libexecdir=DIR: the directory where the programs for the ERQ are found,
-                      defaults to ${PREFIX}/libexec .
+Option | Description | Default
+------ | ----------- | -------
+--prefix=PREFIX | the base directory for the mud installation | /usr/local/mud
+--bindir=DIR | the directory to install the executables in | ${PREFIX}/bin
+--libdir=DIR | the directory where the mudlib is found | ${PREFIX}/lib
+--includedir=DIR | the directory where driver's LPC include files are supposed to live.  | ${PREFIX}/include (which is usually wrong).
+--libexecdir=DIR | the directory where the programs for the ERQ are found | ${PREFIX}/libexec
 
 These settings are written into the Makefile and compiled into the driver,
 just the mudlib directory setting can be changed with a commandline
@@ -75,24 +71,26 @@ A lot of the drivers parameters can be tweaked for better performance; these
 parameters are defined in config.h . This file too is created by configure,
 which provides sensible defaults for all parameters for which no explicite
 setting is provided. To tweak a setting yourself, pass the argument
-'--enable-<option>=yes|no' resp. '--with-<option>=<value>' to configure on
+`--enable-<option>=yes|no` resp. `--with-<option>=<value>` to configure on
 the commandline.
 
 Alternatively, the indivial specifications can be collected in a settings
 file, which is stored in the directory src/settings/. To use the
-setting file <osb>, give '--with-<osb>' as argument to configure. The
-file src/settings/default documents the available settings. The setting
-files are self-executing: './settings/<foo> [<extra-configure-args>]' will
+setting file `<osb>`, give `--with-<osb>` as argument to configure. The
+file `src/settings/default` documents the available settings. The setting
+files are self-executing: `./settings/<foo> [<extra-configure-args>]` will
 start configure with the proper commandline arguments.
 
 
 The following environment variables can be used to tweak the behaviour
 of the configure script:
-  CC:           the name of the C compiler
-  CFLAGS:       compiler flags to be used during the configure script
-  EXTRA_CFLAGS: compiler flags to be used when compiling the game driver
-  LDFLAGS:      linker flags to be used by configure and for linking the
-                game driver.
+
+Variable | Description
+-------- | -----------
+CC | the name of the C compiler
+CFLAGS | compiler flags to be used during the configure script
+EXTRA_CFLAGS | compiler flags to be used when compiling the game driver
+LDFLAGS | linker flags to be used by configure and for linking the game driver.
 
 
 After configuration is finished, you may want to modify the Makefile
@@ -100,25 +98,27 @@ to fine tune those parameters which are not covered by the configuration.
 
 The compilation is done using make. Following targets are implemented:
 
-  <none>:          compile the driver, named 'ldmud'.
-  install:         compile the driver and install it in ${bindir}
-  utils:           compile the utilities, especially the ERQ demon
-  install-utils:   compile and install the utilities in ${bindir}
-  install-headers: install the driver header files in ${includedir}.
-  install-all:     compile and install everything.
+Target | Description
+------ | -----------
+<none> | compile the driver, named `ldmud`.
+install | compile the driver and install it in `${bindir}`
+utils | compile the utilities, especially the ERQ demon
+install-utils | compile and install the utilities in `${bindir}`
+install-headers | install the driver header files in `${includedir}`
+install-all | compile and install everything.
 
 To actually run a mud, you need a mudlib. The driver comes with the
 source of the old 2.4.5 mudlib in mud/lp-245/, support for other mudlibs
-is also found in mud/. Copy all mudlib files into your 'lib' directory
-and make sure that the files from mudlib/sys/ all go into your lib's
-include directory (usually 'sys/').
+is also found in `mud/`. Copy all mudlib files into your `lib` directory
+and make sure that the files from `mudlib/sys/` all go into your lib's
+include directory (usually `sys/`).
 
 After compilation, you may run our testsuite (work in progress!) in the
-test subdirectory (launch test/run.sh).
+test subdirectory (launch `test/run.sh`).
 
-To test the driver, start it with 'ldmud 4242'. If you see the message
-'LDMud ready for users', the driver is up and accepting connections. Test
-it with 'telnet localhost 4242'.
+To test the driver, start it with `ldmud 4242`. If you see the message
+`LDMud ready for users`, the driver is up and accepting connections. Test
+it with `telnet localhost 4242`.
 
 
 ### 64 bit systems (using the LP64 model)
@@ -173,8 +173,7 @@ cause your compiler to compile for the desired platform, e.g.
 ### Compiling sources directly from our git repository
 --------------------------------------------------
 If you want to be on the bleeding edge of development, you may check out the
-LDMud sources from our git repository at github:
-  https://github.com/ldmud/ldmud
+LDMud sources from our git repository at [github](https://github.com/ldmud/ldmud).
 
 To clone the repo:
   `git clone https://github.com/ldmud/ldmud.git`
@@ -187,48 +186,48 @@ There are also various tags for various releases.
 You will need the autoconf package to generate and update some files
 Prior to configuring the driver, please run:
 `# ./autogen.sh`
-in the src/ directory. Then configure the driver as usual.
-
+in the src/ directory. Then configure the driver as usual. If your system does
+not have autoconf, prebuilt settings from `autoconf/` will be used.
 
 #### IPv6
 ----
-  If your machine supports IPv6, the driver can be configured to use it: give
-  '--enable-use-ipv6=yes' as argument to the configure script.
+If your machine supports IPv6, the driver can be configured to use it: give
+`--enable-use-ipv6=yes` as argument to the configure script.
 
 
 #### mySQL
 -----
-  If your machine has mySQL installed, the driver can be configured to use
-  it: give '--enable-use-mysql=yes' as argument to the configure script.
+If your machine has mySQL installed, the driver can be configured to use
+it: give `--enable-use-mysql=yes` as argument to the configure script.
 
-  Alternatively, if your mySQL uses an unusual include/library path,
-  the option can be given as '--enable-use-mysql=/unusual/path', which
-  will use the given path as search path for both include and library
-  files in addition to the normal system search paths. The include files will
-  be searched in <path>/include and <path>, the library files will be search
-  in <path>/lib/mysql, <path>/lib, and <path>, in this order.
+Alternatively, if your mySQL uses an unusual include/library path,
+the option can be given as `--enable-use-mysql=/unusual/path`, which
+will use the given path as search path for both include and library
+files in addition to the normal system search paths. The include files will
+be searched in <path>/include and <path>, the library files will be search
+in <path>/lib/mysql, <path>/lib, and <path>, in this order.
 
-  The username and password for the mySQL database are specified by
-  the mudlib as arguments to the efun db_connect().
+The username and password for the mySQL database are specified by
+the mudlib as arguments to the efun db_connect().
 
-  Use mysqladmin to create any databases you want to provide - the
-  names are later used in the efun db_connect() to connect to
-  the databases.
+Use mysqladmin to create any databases you want to provide - the
+names are later used in the efun db_connect() to connect to
+the databases.
 
 
 ### Windows 95/98/NT/XP/7
 ---------------------
 
-  To compile the gamedriver for Windows, you need the 'Cygwin' package,
-  which is a port of gcc, bash, and other GNU/Unix programs. Once it
-  is installed and running, the procedure is the same as under Unix.
+To compile the gamedriver for Windows, you need the 'Cygwin' package,
+which is a port of gcc, bash, and other GNU/Unix programs. Once it
+is installed and running, the procedure is the same as under Unix.
 
-  CygWin is available from http://cygwin.com/.
-  (When installing make sure that your installation includes gcc, bash, make,
-   sed, awk, and bison and stuff listed above...)
+CygWin is available from http://cygwin.com/.
+(When installing make sure that your installation includes gcc, bash, make,
+ sed, awk, and bison and stuff listed above...)
 
-  There are some pre-compiled binaries for Windows linked from our homepage.
-  Please have a look at:
-  http://www.ldmud.eu/resources.html
+There are some pre-compiled binaries for Windows linked from our homepage.
+Please have a look at:
+http://www.ldmud.eu/resources.html
 
-  However, they are compiled for specific mudlibs, so your mileage may vary.
+However, they are compiled for specific mudlibs, so your mileage may vary.
