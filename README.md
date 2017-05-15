@@ -13,28 +13,24 @@ The latest stable version is available on our [homepage](http://www.ldmud.eu/)
 
 
 The files in this directory are:
-```
-  README      : this file.
-  COPYRIGHT   : the copyright of the driver.
-  CREDITS     : the list of contributors.
-  HISTORY     : a user-oriented history of the last changes.
-  CHANGELOG   : the last changes in minute detail.
-  INSTALL     : installation hints and notes.
+Name | Description
+---- | -----------
+README | this file.
+COPYRIGHT | the copyright of the driver.
+CREDITS | the list of contributors.
+HISTORY | a user-oriented history of the last changes.
+CHANGELOG | the last changes in minute detail.
+INSTALL | installation hints and notes.
 
-  autoconf/: pre-made autoconf files for legacy systems.
-  doc/    : the collected documentation
-  src/    : the driver source
-  src/settings:
-            settings for configure for a number of muds
-  src/util: misc. utils like ERQ daemons
-  mudlib/ : various LPC (example) files.
-  mudlib/deprecated/:
-            sefuns for removed efuns.
-  mudlib/sys/:
-            standard include files to copy into your mudlib. Some of these are
-            also used by the src/ files.
-  mud/    : the lp-245 mudlib, and support files for other mudlibs.
-  etc/    : misc. scripts, images and syntax files for editors.
-  gdb/    : pretty printers for GDB7 for the main data structures.
-  test/   : the driver test suite, run with ./run.sh after compilation.
-```
+autoconf/ | pre-made autoconf files for legacy systems.
+doc/ | the collected documentation
+src/ | the driver source
+src/settings | settings for configure for a number of muds
+src/util | misc. utils like ERQ daemons
+mudlib/ | various LPC (example) files.
+mudlib/deprecated/ | sefuns for removed efuns.
+mudlib/sys/ | standard include files to copy into your mudlib. Some of these are also used by the src/ files.
+mud/ | the lp-245 mudlib, and support files for other mudlibs.
+etc/ | misc. scripts, images and syntax files for editors.
+gdb/ | pretty printers for GDB7 for the main data structures.
+test/ | the driver test suite, run with ./run.sh after compilation.
