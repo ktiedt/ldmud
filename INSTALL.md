@@ -100,11 +100,11 @@ The compilation is done using make. Following targets are implemented:
 
 Target | Description
 ------ | -----------
-<none> | compile the driver, named `ldmud`.
-install | compile the driver and install it in `${bindir}`
+<none> | compile the driver, named 'ldmud'.
+install | compile the driver and install it in ${bindir}
 utils | compile the utilities, especially the ERQ demon
-install-utils | compile and install the utilities in `${bindir}`
-install-headers | install the driver header files in `${includedir}`
+install-utils | compile and install the utilities in ${bindir}
+install-headers | install the driver header files in ${includedir}
 install-all | compile and install everything.
 
 To actually run a mud, you need a mudlib. The driver comes with the
