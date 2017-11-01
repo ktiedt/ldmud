@@ -15,6 +15,8 @@
 extern char * prng_device_name;
 
 /* --- Prototypes --- */
+extern void seeddup(uint32_t *src);
+extern void restore_seed();
 extern void seed_random_from_int(uint32_t seed);
 extern void seed_random(const char *filename);
 #if SIZEOF_LONG == SIZEOF_CHAR_P

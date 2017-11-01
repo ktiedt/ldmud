@@ -146,7 +146,7 @@
 
 /* Variables */
 string_t *last_ctime_result = NULL;
-  /* points to the result of the last f_ctime() call. If the caller asks for 
+  /* points to the result of the last f_ctime() call. If the caller asks for
    * the same timestamp, it will be returned. */
 
 /* Forward declarations */
@@ -600,7 +600,7 @@ v_sha1 (svalue_t *sp, int num_arg)
 } /* v_sha1() */
 
 /*-------------------------------------------------------------------------*/
-#if (!defined(USE_TLS) || !defined(HAS_OPENSSL)) && !defined(USE_GCRYPT) 
+#if (!defined(USE_TLS) || !defined(HAS_OPENSSL)) && !defined(USE_GCRYPT)
 Bool
 get_digest (int num, digest_t * md, size_t *len)
 
@@ -1030,16 +1030,16 @@ struct regexplode_cleanup_s {
 static void
 regexplode_error_handler( error_handler_t * arg)
 /* The error handler: delete the mempool and free the compiled regexp.
- * Note: it is static, but the compiler will have to emit a function and 
- * symbol for this because the address of the function is taken and it is 
+ * Note: it is static, but the compiler will have to emit a function and
+ * symbol for this because the address of the function is taken and it is
  * therefore not suitable to be inlined.
  */
 {
     struct regexplode_cleanup_s *handler = (struct regexplode_cleanup_s *)arg;
-    
+
     if (handler->reg)
         free_regexp(handler->reg);
-    
+
     if (handler->matchmempool) {
         mempool_delete(handler->matchmempool);
     }
@@ -1080,12 +1080,12 @@ f_regexplode (svalue_t *sp)
     /* cleanup structure holding the head of chain of matches */
     struct regexplode_cleanup_s *cleanup;
 
-    
+
     /* Get the efun arguments */
     text = sp[-2].u.str;
     pattern = sp[-1].u.str;
     opt = (int)sp->u.number;
-    
+
     /* allocate space for cleanup structure. */
     cleanup = xalloc(sizeof(*cleanup));
     if (!cleanup)
@@ -1104,7 +1104,7 @@ f_regexplode (svalue_t *sp)
     cleanup->reg = NULL;
     /*  push error handler above the args on the stack */
     sp = push_error_handler(regexplode_error_handler, &(cleanup->head));
-        
+
     reg = rx_compile(pattern, opt, MY_FALSE);
     if (reg == 0) {
         errorf("Unrecognized search pattern");
@@ -1112,7 +1112,7 @@ f_regexplode (svalue_t *sp)
         return sp;
     }
     cleanup->reg = reg;
-    
+
     /* Loop over <text>, repeatedly matching it against the pattern,
      * until all matches have been found and recorded.
      */
@@ -1145,7 +1145,7 @@ f_regexplode (svalue_t *sp)
         *matchp = match;
         matchp = &match->next;
         num_match++;
-        
+
         if (start == mstrsize(text)
          || (match->start == start && ++start == mstrsize(text)) )
             break;
@@ -1174,7 +1174,7 @@ f_regexplode (svalue_t *sp)
     }
     ret = allocate_array(arraysize);
 
-    /* Walk down the list of matches, extracting the text parts and matched 
+    /* Walk down the list of matches, extracting the text parts and matched
      * delimiters, copying them into ret.
      */
     svp = ret->item;
@@ -1187,13 +1187,13 @@ f_regexplode (svalue_t *sp)
         len = match->start - start;
         if (len)
         {
-            memsafe(txt = mstr_extract(text, start, match->start-1), 
+            memsafe(txt = mstr_extract(text, start, match->start-1),
                     (size_t)len, "text before delimiter");
             put_string(svp, txt);
         }
         else
             put_ref_string(svp, STR_EMPTY);
-        
+
         svp++;
 
         /* Copy the matched delimiter */
@@ -1207,7 +1207,7 @@ f_regexplode (svalue_t *sp)
             }
             else
                 put_ref_string(svp, STR_EMPTY);
-            
+
             svp++;
         }
 
@@ -3111,7 +3111,7 @@ process_value (const char *str, Bool original)
             narg++;
         }
     }
-    
+
     /* Apply the function */
     ret = apply(func2, ob, numargs);
 
@@ -3120,7 +3120,7 @@ process_value (const char *str, Bool original)
      */
     if (original)
         free_svalue(inter_sp--);
-    
+
     /* see if adequate answer is returned by the apply(). */
     if (ret && ret->type == T_STRING)
         return ret->u.str;
@@ -4989,10 +4989,10 @@ v_present_clone (svalue_t *sp, int num_arg)
         char * sane_name;
         char * name0;  /* Intermediate name */
         char * tmpbuf; /* intermediate buffer for stripping any #xxxx */
-        
+
         name0 = get_txt(arg->u.str);
         tmpbuf = NULL;
-        
+
         /* Normalize the given string and check if it is
          * in the shared string table. If not, we know that
          * there is no blueprint with that name
@@ -5031,7 +5031,7 @@ v_present_clone (svalue_t *sp, int num_arg)
          * case, name0 contains now the name to be used. */
         if (tmpbuf)
             name0 = tmpbuf;
-        
+
         /* Now make the name sane */
         sane_name = (char *)make_name_sane(name0, !compat_mode);
 
@@ -5039,9 +5039,9 @@ v_present_clone (svalue_t *sp, int num_arg)
             name = find_tabled_str(sane_name);
         else
             name = find_tabled_str(name0);
-        
+
         /* tmpbuf (and name0 which might point to the same memory) is unneeded
-         * from now on. Setting both to NULL, just in case somebody uses 
+         * from now on. Setting both to NULL, just in case somebody uses
          * them later below. */
         if (tmpbuf) {
             xfree(tmpbuf);
@@ -6151,7 +6151,7 @@ v_to_struct (svalue_t *sp, int num_arg)
  * The returned struct is anonymous, or if a template struct is given, a
  * struct of the same type.
  *
- * Structs are converted to the template struct (2nd arg) if given. If no 
+ * Structs are converted to the template struct (2nd arg) if given. If no
  * template given, they are returned unchanged.
  * Struct conversion is only possible between either a base struct and its
  * children or a child and one of its base structs, otherwise an error is
@@ -6357,7 +6357,7 @@ v_to_struct (svalue_t *sp, int num_arg)
             {
                 int rc;
                 p_int size;
-                
+
                 struct_t *oldstruct = argp->u.strct;
                 struct_t *newstruct = argp[1].u.strct;
                 svalue_t *memberp; // pointer to the first member of the new struct
@@ -6371,7 +6371,7 @@ v_to_struct (svalue_t *sp, int num_arg)
                 // check if template is a base of the old struct or the old struct is
                 // a base of the template.
                 rc = struct_baseof(newstruct->type, oldstruct->type);
-                
+
                 // special case, same structs.
                 if (rc == 2)
                 {
@@ -6386,11 +6386,11 @@ v_to_struct (svalue_t *sp, int num_arg)
                 {
                     // completely unrelated structs? Then we don't convert.
                     errorf("Can't convert struct %s into struct %s. Neither is a base of the other.\n",
-                           get_txt(struct_unique_name(argp->u.strct)), 
+                           get_txt(struct_unique_name(argp->u.strct)),
                            get_txt(struct_unique_name(argp[1].u.strct)));
                 }
-                
-                if (oldstruct->ref == 1 
+
+                if (oldstruct->ref == 1
                     && struct_size(newstruct) == struct_size(oldstruct))
                 {
                     // special case, the structs have the same number of members. Since it
@@ -6401,11 +6401,11 @@ v_to_struct (svalue_t *sp, int num_arg)
                     oldstruct->type = ref_struct_type(newstruct->type);
                     break;
                 }
-                
+
                 newstruct = struct_new(newstruct->type);
                 if (!newstruct)
                     outofmemory("new struct in to_struct()");
-                for (memberp = newstruct->member, omemberp = oldstruct->member; 
+                for (memberp = newstruct->member, omemberp = oldstruct->member;
                      --size >= 0;
                      ++memberp, ++omemberp)
                 {
@@ -6416,7 +6416,7 @@ v_to_struct (svalue_t *sp, int num_arg)
                 // the new struct may have more members than the old one (if oldstruct was
                 // the base. That is OK, the extra svalues just remain 0. On the other hand,
                 // if the old struct has more members, we just ignore them.
-                
+
                 put_struct(argp, newstruct);
                 break;
             }
@@ -7572,7 +7572,7 @@ v_member (svalue_t *sp, int num_arg)
         if (sp->type != T_NUMBER)
             efun_arg_error(2, T_NUMBER, sp->type, sp);
         str = sp[-1].u.str;
-        
+
         if (hasStart && (size_t)startpos >= mstrsize(str))
             i = -1;
         else
@@ -8283,7 +8283,7 @@ f_configure_driver (svalue_t *sp)
 /* EFUN void configure_driver(int what, mixed data)
  *
  * This efun configures several aspects of the driver at run-time.
- * 
+ *
  * <what> is an identifier the setting:
  *        - DC_MEMORY_LIMIT        (0): configures the memory limits
  *        - DC_ENABLE_HEART_BEATS  (1): activate/deactivate heart beats globally
@@ -8291,7 +8291,7 @@ f_configure_driver (svalue_t *sp)
  *        - DC_DATA_CLEAN_TIME     (3): time delay between data cleans
  *        - DC_TLS_CERTIFICATE     (4): TLS certificate to use (fingerprint)
  *        - DC_TLS_DHE_PARAMETER   (5): TLS Diffie-Hellman paramter to use
- * 
+ *
  * <data> is dependent on <what>:
  *   DC_MEMORY_LIMIT:        ({soft-limit, hard-limit}) both <int>, given in Bytes.
  *   DC_ENABLE_HEART_BEATS:  0/1 (int)
@@ -8311,7 +8311,7 @@ f_configure_driver (svalue_t *sp)
         return pop_n_elems(2, sp);
     }
 
-    switch(sp[-1].u.number) 
+    switch(sp[-1].u.number)
     {
         default:
             errorf("Illegal value %"PRIdPINT" for configure_driver().\n", sp[-1].u.number);
@@ -8453,7 +8453,7 @@ f_configure_driver (svalue_t *sp)
                 vefun_exp_arg_error(1, TF_STRING|TF_NUMBER, sp->type, sp);
             }
             break;
-        
+
         case DC_TLS_CIPHERLIST:
             if (!tls_available())
                 errorf("Cipher list could not be set: "
@@ -8484,7 +8484,7 @@ f_configure_driver (svalue_t *sp)
                 vefun_exp_arg_error(1, TF_STRING|TF_NUMBER, sp->type, sp);
             }
             break;
-            
+
 #endif /* USE_TLS */
 
         case DC_EXTRA_WIZINFO_SIZE:
@@ -9513,11 +9513,12 @@ f_rusage (svalue_t *sp)
 
 /*-------------------------------------------------------------------------*/
 svalue_t *
-f_random (svalue_t *sp)
+v_random (svalue_t *sp, int num_arg)
 
 /* EFUN random()
  *
  *   int random(int n)
+ *   int random(int n, int seed);
  *
  * Returns a number in the random range [0 .. n-1].
  *
@@ -9527,13 +9528,34 @@ f_random (svalue_t *sp)
  */
 
 {
-    if (sp->u.number <= 0)
-        sp->u.number = 0;
-    else
-        sp->u.number = (p_int)random_number(sp->u.number);
+		/* Begin of arguments on the stack */
+    svalue_t *arg = sp - num_arg + 1;
+
+    // evaluate arguments
+    switch(num_arg) {
+        case 2:
+            if (arg[1].u.number <= 0)
+                errorf("Bad arg 2 to random(): got %"PRIdPINT", expected >= 0\n", arg[1].u.number);
+            else
+                seed_random_from_int((uint32_t)arg[1].u.number);
+
+            // fall-through
+        case 1:
+            // if <= 0 just return 0
+            if (arg[0].u.number <= 0) {
+                sp->u.number = 0;
+            } else {
+                sp->u.number = (p_int)random_number(arg[0].u.number);
+            }
+            break;
+    }
+
+    if (num_arg == 2) {
+			restore_seed();
+		}
 
     return sp;
-} /* f_random() */
+} /* v_random() */
 
 /*-------------------------------------------------------------------------*/
 svalue_t *
@@ -9546,7 +9568,7 @@ f_shutdown (svalue_t *sp)
  *
  * Shutdown the mud, setting the process result code to
  * <exit_code>, or 0 if not given.
- * 
+ *
  * Never use this efun. Instead if you have a need to shutdown
  * the mud use the shutdown command.  You may be asking yourself,
  * if you're not supposed to use it why is it here?  Sorry, I
@@ -9587,7 +9609,7 @@ f_ctime(svalue_t *sp)
 {
     char *ts, *cp;
     string_t *rc;
-    
+
     static mp_int last_time = -1;  // letzte Uhrzeit
 
     if (sp->type != T_NUMBER)
@@ -9639,13 +9661,13 @@ f_ctime(svalue_t *sp)
             ts = time_fstring(sp->u.number, "%a %b %d %H:%M:%S %Y", 0);
             if (!ts)
                 errorf("Bad time in ctime(): %"PRIdMPINT" can't be "
-                    "represented by the host system. Maybe too large?\n", 
+                    "represented by the host system. Maybe too large?\n",
                     sp->u.number);
 
             /* If the string contains nl characters, extract the substring
              * before the first one. Else just copy the (volatile) result
              * we got.
-             * Table strings, because they are probably used more then once. 
+             * Table strings, because they are probably used more then once.
              */
             cp = strchr(ts, '\n');
             if (cp)
@@ -9659,7 +9681,7 @@ f_ctime(svalue_t *sp)
                 memsafe(rc = new_tabled(ts), strlen(ts),
                         "ctime() result");
             }
-            /* fill cache, free last (invalid) string first and don't forget 
+            /* fill cache, free last (invalid) string first and don't forget
              * to increase the ref count for the cache. */
             free_mstring(last_ctime_result);
             last_ctime_result = rc;
@@ -9672,7 +9694,7 @@ f_ctime(svalue_t *sp)
             ref_mstring(rc);
         }
     }  // if (sp->type != T_NUMBER)
-    
+
     free_svalue(sp);
     put_string(sp, rc);
     return sp;
@@ -9746,7 +9768,7 @@ f_mktime (svalue_t *sp)
  *
  *   int time(int* datum)
  *
- * Return the unix timestamp (number of seconds ellapsed since 1. Jan 1970, 
+ * Return the unix timestamp (number of seconds ellapsed since 1. Jan 1970,
  * 0.0:0 GMT) of the date given in the array datum. datum being an array
  * like the one localtime() or gmtime() return:
  *   int TM_SEC   (0) : Seconds (0..59)
@@ -9764,7 +9786,7 @@ f_mktime (svalue_t *sp)
 {
     struct tm * pTm; // broken-down time structure for mktime()
     time_t      clk; // unix timestamp corresponding to datum
-    vector_t  * v;   // just for convenience, stores argument array 
+    vector_t  * v;   // just for convenience, stores argument array
     int i;
     p_int val[9];
 
@@ -9773,7 +9795,7 @@ f_mktime (svalue_t *sp)
         errorf("Bad arg 1 to mktime(): Invalid array size %ld, expected 9.\n"
                  , (long)VEC_SIZE(v));
     // all elements must be ints.
-    for(i=0; i<VEC_SIZE(v); i++) 
+    for(i=0; i<VEC_SIZE(v); i++)
     {
         svalue_t *item = get_rvalue(v->item + i, NULL);
         if ( item == NULL || item->type != T_NUMBER)
@@ -9791,19 +9813,19 @@ f_mktime (svalue_t *sp)
     pTm->tm_mon   = val[TM_MON];
     pTm->tm_year  = val[TM_YEAR] - 1900;
     pTm->tm_isdst = val[TM_ISDST];
-    
+
     clk = mktime(pTm);
 
     // free time structure first
     xfree(pTm);
-    
+
     if (clk == -1)
         errorf("Specified date/time cannot be represented as unix timestamp.\n");
-    
+
     // free argument and put result.
     free_svalue(sp);
     put_number(sp, (p_int)clk);
-    
+
     return sp;
 } /* f_mktime() */
 
@@ -9832,15 +9854,15 @@ v_strftime(svalue_t *sp, int num_arg)
 {
     char *ts;
     string_t *rc = NULL;  // ergebnisstring
-    
+
     /* Begin of arguments on the stack */
     svalue_t *arg = sp - num_arg + 1;
-    
+
     // defaults:
     Bool localized = MY_TRUE;
     mp_int clk = current_time;
     char *cfmt = "%c";
-    
+
     // evaluate arguments
     switch(num_arg) {
         case 3:
@@ -9877,10 +9899,10 @@ v_strftime(svalue_t *sp, int num_arg)
             "represented by the host system. Maybe too large?\n", clk);
 
     memsafe(rc = new_tabled(ts), strlen(ts)+sizeof(string_t), "strftime() result");
-    
+
     sp = pop_n_elems(num_arg, sp);
     push_string(sp, rc);
-    
+
     return sp;
 } /* f_strftime() */
 
@@ -9915,4 +9937,3 @@ count_ref_from_efuns (void)
 #endif /* GC_SUPPORT */
 
 /*-------------------------------------------------------------------------*/
-

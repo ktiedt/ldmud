@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------
  * Wrapper for the 'SIMD oriented Fast Mersenne Twister.
  *
- * SFMT was developed by Mutsuo Saito and Makoto Matsumoto, 
+ * SFMT was developed by Mutsuo Saito and Makoto Matsumoto,
  *   Hiroshima University,
  *   http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/SFMT/index.html)
  * SFMT was integrated to LDMud by Zesstra@MorgenGrauen (http://mg.mud.de)
@@ -19,6 +19,8 @@
 #include "random/SFMT.c"
 
 const unsigned int INIT_ARRAY_SIZE = 156U; // 4*156 == 624 bytes
+uint32_t original_int_seed = 0;
+uint32_t original_array_seed[156U] = { 0 };
 
 // Name of the device/file to seed the PRNG from
 char * prng_device_name = NULL;
@@ -88,6 +90,21 @@ uint32_t random_number(uint32 n)
   svalue number type.
 #endif
 
+void restore_seed()
+{
+    if (original_int_seed != 0) {
+			seed_random_from_int(original_int_seed);
+			return;
+		}
+
+		if (original_array_seed[0] != 0) {
+			init_by_array(original_array_seed, INIT_ARRAY_SIZE);
+			return;
+		}
+
+		seed_random(prng_device_name);
+}
+
 void seed_random_from_int (uint32_t seed)
 /* Initialize the generator */
 
@@ -97,12 +114,21 @@ void seed_random_from_int (uint32_t seed)
     debug_message("%s Seeding PRNG with: 0x%lx\n"
                  , time_stamp(), (unsigned long)seed);
 
+    // Only store the original seed.
+    if (original_int_seed == 0) {
+        original_int_seed = seed;
+    }
+
     init_gen_rand(seed);
 } /* seed_random_from_int() */
 
+void seeddup(uint32_t *src) {
+    uint32_t * p = original_array_seed;
+    memcpy(p,src,3 * sizeof(uint32_t));
+}
 /*-------------------------------------------------------------------------*/
 
-void 
+void
 seed_random(const char *filename)
     /* Opens the file given by filename and reads 156 uint32_t (624
      * bytes) from it (most often the file is probably /dev/urandom or
@@ -112,7 +138,7 @@ seed_random(const char *filename)
      */
 {
     FILE *seedsrc = NULL; // Filepointer
-    
+
     // If we got a NULL pointer or an empty string, don't try to open some
     // device/file.
     if (filename != NULL && strlen(filename))
@@ -126,6 +152,7 @@ seed_random(const char *filename)
                                seedsrc );
         fclose(seedsrc);
         if( count == INIT_ARRAY_SIZE ) {
+            seeddup(seeddata);
             init_by_array(seeddata, INIT_ARRAY_SIZE ); // seed PRNG
             printf("%s Seeding PRNG from %s.\n", time_stamp(),
                     filename);
@@ -134,7 +161,7 @@ seed_random(const char *filename)
             return;
         } // if (count == INIT_ARRAY_SIZE)
     } // if (seedsrc)
-    
+
     // Fall-back: driver clock
     printf("%s Seeding PRNG with current driver time\n"
                  , time_stamp());

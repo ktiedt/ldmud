@@ -80,7 +80,7 @@ extern svalue_t *f_ctime(svalue_t *);
 extern svalue_t *v_strftime(svalue_t *, int num_arg);
 extern svalue_t *f_configure_driver(svalue_t *);
 extern svalue_t *f_rusage(svalue_t *sp);
-extern svalue_t *f_random(svalue_t *);
+extern svalue_t *v_random(svalue_t *sp, int num_arg);
 extern svalue_t *f_shutdown(svalue_t *sp);
 extern svalue_t *f_time(svalue_t *);
 extern svalue_t *f_mktime(svalue_t *);
